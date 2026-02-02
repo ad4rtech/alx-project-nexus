@@ -9,11 +9,12 @@ interface CartItemProps {
     sku: string;
     price: number;
     quantity: number;
-    onUpdateQuantity: (newQuantity: number) => void;
+    image?: string;
+    onQuantityChange: (quantity: number) => void;
     onRemove: () => void;
 }
 
-export const CartItem = ({ id, title, sku, price, quantity, onUpdateQuantity, onRemove }: CartItemProps) => {
+export const CartItem = ({ id, title, sku, price, quantity, image, onQuantityChange, onRemove }: CartItemProps) => {
     const total = price * quantity;
 
     return (
@@ -46,7 +47,7 @@ export const CartItem = ({ id, title, sku, price, quantity, onUpdateQuantity, on
                     type="number"
                     min="1"
                     value={quantity}
-                    onChange={(e) => onUpdateQuantity(parseInt(e.target.value) || 1)}
+                    onChange={(e) => onQuantityChange(parseInt(e.target.value) || 1)}
                     className="w-16 text-center border border-gray-200 rounded-md py-1 text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                 />
             </div>

@@ -2,15 +2,18 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
+import { useCart } from '@/lib/context/CartContext';
 import { cn } from '@/lib/utils/cn';
 import { Button } from '../ui/Button';
 import { ShoppingCart, User } from 'lucide-react';
 
 export const AuthenticatedNavbar = () => {
     const pathname = usePathname();
+    const router = useRouter();
     const { user, logout } = useAuth();
+    const { itemCount } = useCart();
     const role = user?.role;
 
     const isActive = (href: string) => pathname === href || pathname.startsWith(href);
@@ -27,8 +30,8 @@ export const AuthenticatedNavbar = () => {
     ];
 
     // Role display mapping
-    const roleDisplay = role === 'ADMIN' ? 'IT Administrator' : 'Procurement Manager';
-    const roleBadgeInitial = role === 'ADMIN' ? 'IT' : 'PM';
+    const roleDisplay = role === 'ADMIN' ? 'IT Administrator' : role === 'APPROVER' ? 'Approver' : 'Procurement Manager';
+    const roleBadgeInitial = role === 'ADMIN' ? 'IT' : role === 'APPROVER' ? 'AP' : 'PM';
 
     // Specific links
     if (role === 'BUYER' || role === 'APPROVER') {
@@ -39,6 +42,11 @@ export const AuthenticatedNavbar = () => {
         links.push({ name: 'Deployments', href: '/deployments' });
         links.push({ name: 'Tracking', href: '/tracking' });
     }
+
+    const handleLogout = () => {
+        logout();
+        router.push('/login');
+    };
 
     return (
         <nav className="bg-white border-b border-gray-200">
@@ -71,13 +79,27 @@ export const AuthenticatedNavbar = () => {
                                     {link.name}
                                 </Link>
                             ))}
-                            {/* Static Cart for Visual Demo */}
-                            <button className="inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700">
-                                <span className="relative">
-                                    <ShoppingCart className="h-5 w-5" />
-                                    <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">2</span>
-                                </span>
-                            </button>
+                            {/* Cart Icon - Only for BUYER/APPROVER */}
+                            {(role === 'BUYER' || role === 'APPROVER') && (
+                                <Link
+                                    href="/cart"
+                                    className={cn(
+                                        'inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-colors',
+                                        isActive('/cart')
+                                            ? 'border-gray-900 text-gray-900'
+                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                    )}
+                                >
+                                    <span className="relative">
+                                        <ShoppingCart className="h-5 w-5" />
+                                        {itemCount > 0 && (
+                                            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                                                {itemCount}
+                                            </span>
+                                        )}
+                                    </span>
+                                </Link>
+                            )}
                         </div>
                     </div>
 
@@ -85,7 +107,7 @@ export const AuthenticatedNavbar = () => {
                     <div className="flex items-center gap-4">
                         {/* Role Pill */}
                         <div className="hidden md:flex items-center px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full border border-blue-100">
-                            Signed in as {roleDisplay}
+                            {roleDisplay}
                         </div>
 
                         {/* Profile Dropdown Area (Simulated) */}
@@ -94,12 +116,15 @@ export const AuthenticatedNavbar = () => {
                                 {roleBadgeInitial}
                             </div>
                             <div className="hidden md:block text-left">
-                                <div className="text-sm font-semibold text-gray-900 leading-none">{user?.name || 'Alex Johnson'}</div>
+                                <div className="text-sm font-semibold text-gray-900 leading-none">{user?.name || 'User'}</div>
                                 <div className="text-xs text-gray-400 mt-0.5">Profile</div>
                             </div>
-                            {/* Simple logout trigger for prototype */}
-                            <button onClick={logout} className="ml-2 text-xs text-red-500 hover:text-red-700">
-                                (Sign out)
+                            {/* Logout button */}
+                            <button
+                                onClick={handleLogout}
+                                className="ml-2 text-xs text-red-500 hover:text-red-700 font-medium"
+                            >
+                                Sign out
                             </button>
                         </div>
                     </div>
