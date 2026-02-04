@@ -6,6 +6,7 @@ export const products = [
         model: 'TP-X1-G11',
         description: 'Engineered for corporate productivity, the ThinkPad X1 Carbon Gen 11 combines ultralight portability with heavy-duty performance. Features enterprise-grade security, long battery life, and comprehensive connectivity options suitable for hybrid work environments.',
         price: 1849.00,
+        image: '/assets/ThinkPad X1 Carbon Gen 11.webp',
         specs: {
             processor: 'Intel Core i7-1355U vPro',
             os: 'Windows 11 Pro 64',
@@ -34,7 +35,14 @@ export const products = [
         model: 'DL-U2723QE',
         description: 'Experience pure productivity on a 27-inch 4K monitor with extensive connectivity and ComfortView Plus.',
         price: 619.00,
-        specs: { processor: 'N/A', os: 'N/A', graphics: 'N/A', memory: 'N/A', storage: 'N/A' },
+        image: '/assets/Dell UltraSharp U2723QE.jpg',
+        specs: {
+            processor: 'USB-C hub controller built-in',
+            graphics: '4K UHD (3840 × 2160) resolution',
+            memory: 'Internal firmware/EDID memory',
+            display: '27" IPS Black panel',
+            brightness: '400cd/m²'
+        },
         features: ['27" 4K UHD (3840 x 2160)', '400 nits Brightness', 'USB-C Hub, HDMI, DP', '98% DCI-P3 Color Gamut'],
         warranty: '3 Yr Adv Exchange'
     },
@@ -45,6 +53,7 @@ export const products = [
         model: 'HP-Z2-MINI',
         description: 'Incredibly high performance packed into an obscenely small PC. Easily fits on your desk or behind your monitor.',
         price: 1249.00,
+        image: '/assets/HP Z2 Mini G9.webp',
         specs: { processor: 'Intel Core i9-13900K', os: 'Windows 11 Pro', graphics: 'NVIDIA RTX A2000 12GB', memory: '64GB DDR5 5600MHz', storage: 'Gen4 M.2 SSD' },
         features: ['Intel Core i9-13900K', '64GB DDR5 5600MHz', 'NVIDIA RTX A2000 12GB', 'Wi-Fi 6E + Bluetooth 5.3'],
         warranty: '5 Yr Onsite Support'
@@ -56,6 +65,7 @@ export const products = [
         model: 'APL-IPAD-PRO',
         description: 'Astonishing performance, incredibly advanced displays, and superfast wireless connectivity.',
         price: 1099.00,
+        image: '/assets/iPad Pro 12.9-inch (M2).jpg',
         specs: { processor: 'Apple M2 Chip', os: 'iPadOS 16', graphics: '10-core GPU', memory: '8GB RAM', storage: '256GB Storage' },
         features: ['Apple M2 Chip (8-core)', '256GB Storage', 'Liquid Retina XDR Display', '10 Hr Battery Life'],
         warranty: '2 Yr AppleCare+'
@@ -67,7 +77,14 @@ export const products = [
         model: 'CSCO-MX85',
         description: 'Enterprise SD-WAN and security appliance for medium-sized branches. Cloud-managed.',
         price: 2400.00,
-        specs: { processor: 'N/A', os: 'Meraki OS', graphics: 'N/A', memory: 'N/A', storage: 'N/A' },
+        image: '/assets/Cisco Meraki MX85.avif',
+        specs: {
+            os: 'Meraki OS',
+            firewall: 'Throughput 1 Gbps',
+            vpn: 'Throughput 500 Mbps',
+            management: 'Cloud-based Cisco Meraki Dashboard',
+            'wan ports': '2 × 1 GbE SFP, 2 × 1 GbE RJ45 (1 with PoE+)'
+        },
         features: ['1 Gbps Stateful Firewall', 'SD-WAN Capable', 'Advanced Security License', 'Up to 250 Users'],
         warranty: 'Lifetime Hardware'
     },
@@ -78,7 +95,14 @@ export const products = [
         model: 'LOGI-MXM3S',
         description: 'An icon remastered. Feel every moment of your workflow with even more precision, tactility, and performance.',
         price: 99.00,
-        specs: { processor: 'N/A', os: 'N/A', graphics: 'N/A', memory: 'N/A', storage: 'N/A' },
+        image: '/assets/Logitech MX Master 3S.jpg',
+        specs: {
+            battery: 'Rechargeable Li-Po 500 mAh',
+            'sensor type': 'Darkfield high-precision optical sensor',
+            'scroll wheel': 'MagSpeed electromagnetic wheel with smart-shift',
+            wireless: 'Bluetooth Low Energy & Logi Bolt USB receiver',
+            dimensions: '~124.9 × 84.3 × 51 mm'
+        },
         features: ['8000 DPI Sensor', 'Multi-Device Bluetooth', 'USB-C Fast Charging', 'Quiet Clicks'],
         warranty: '1 Yr Standard'
     }
