@@ -2,18 +2,34 @@ import React from 'react';
 import { cn } from '@/lib/utils/cn';
 
 interface StatusBadgeProps {
-    status: 'In Transit' | 'Shipped' | 'Delivered' | 'Pending' | 'Processing';
+    status: 'PENDING' | 'SHIPPED' | 'DELIVERED' | 'DEPLOYED' | 'In Transit' | 'Shipped' | 'Delivered' | 'Pending' | 'Processing';
     className?: string;
 }
 
 export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
     const styles = {
-        'In Transit': 'bg-blue-100 text-blue-800',
-        'Shipped': 'bg-blue-50 text-blue-700',
-        'Delivered': 'bg-green-100 text-green-800',
-        'Pending': 'bg-yellow-100 text-yellow-800',
-        'Processing': 'bg-gray-100 text-gray-800',
+        // Database statuses with updated colors to match tracking page
+        'PENDING': 'bg-orange-100 text-orange-700',
+        'SHIPPED': 'bg-blue-100 text-blue-700',
+        'DELIVERED': 'bg-green-100 text-green-700',
+        'DEPLOYED': 'bg-purple-100 text-purple-700',
+        // Legacy statuses (for backward compatibility)
+        'In Transit': 'bg-blue-100 text-blue-700',
+        'Shipped': 'bg-blue-100 text-blue-700',
+        'Delivered': 'bg-green-100 text-green-700',
+        'Pending': 'bg-orange-100 text-orange-700',
+        'Processing': 'bg-gray-100 text-gray-700',
     };
+
+    // Display text mapping for database statuses
+    const displayText = {
+        'PENDING': 'Pending',
+        'SHIPPED': 'Shipped',
+        'DELIVERED': 'Delivered',
+        'DEPLOYED': 'Deployed',
+    };
+
+    const displayStatus = (displayText as any)[status] || status;
 
     return (
         <span className={cn(
@@ -21,7 +37,7 @@ export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
             styles[status] || 'bg-gray-100 text-gray-800',
             className
         )}>
-            {status}
+            {displayStatus}
         </span>
     );
 };

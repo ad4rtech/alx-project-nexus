@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
 
 interface OrderSummaryProps {
     subtotal: number;
@@ -49,14 +50,15 @@ export const OrderSummary = ({ subtotal, shipping, taxRate, itemCount }: OrderSu
             </div>
 
             {/* Action */}
-            <Button className="w-full py-3 text-base font-semibold bg-blue-600 hover:bg-blue-700">
-                Submit Order for Approval
-            </Button>
+            <Link href="/checkout">
+                <Button className="w-full py-3 text-base font-semibold bg-blue-600 hover:bg-blue-700">
+                    Confirm Order
+                </Button>
+            </Link>
 
             {/* Footer Metadata */}
-            <div className="mt-4 text-center space-y-1">
-                <p className="text-[10px] text-gray-400">Order ID: #ORD-2023-8894</p>
-                <p className="text-[10px] text-gray-400">Pending internal approval by IT Admin.</p>
+            <div className="mt-4 text-center">
+                <p className="text-xs text-gray-500">Orders are created with PENDING status</p>
             </div>
         </div>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { ShieldCheck, Cpu, HardDrive, Monitor, Wifi, Settings, Battery, MousePointer2 } from 'lucide-react';
 
@@ -9,6 +10,7 @@ interface ITAdminProductCardProps {
     title: string;
     features?: string[];
     warranty?: string;
+    image?: string;
 }
 
 // Helper to guess icon based on feature text
@@ -31,15 +33,24 @@ const getWarrantyColor = (text: string) => {
     return 'bg-green-500 text-white border-green-500'; // Default Green
 };
 
-export const ITAdminProductCard = ({ id, category, title, features = [], warranty = '1 Yr Standard' }: ITAdminProductCardProps) => {
+export const ITAdminProductCard = ({ id, category, title, features = [], warranty = '1 Yr Standard', image }: ITAdminProductCardProps) => {
     return (
         <div className="bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
             {/* Image Area - Taller Aspect Ratio */}
             <div className="aspect-[4/5] w-full bg-gray-50 relative border-b border-gray-50 overflow-hidden">
-                <div className="absolute inset-x-8 inset-y-8 flex items-center justify-center">
-                    {/* Placeholder content - in real app would be Next/Image */}
-                    <div className="w-full h-full bg-gray-200 rounded opacity-20 transform scale-90"></div>
-                </div>
+                {image ? (
+                    <Image
+                        src={image}
+                        alt={title}
+                        fill
+                        className="object-contain p-8"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                ) : (
+                    <div className="absolute inset-x-8 inset-y-8 flex items-center justify-center">
+                        <div className="w-full h-full bg-gray-200 rounded opacity-20 transform scale-90"></div>
+                    </div>
+                )}
                 {/* Decorative background pattern */}
                 <div className="absolute inset-0 opacity-5" style={{
                     backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
