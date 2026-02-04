@@ -30,11 +30,11 @@ export const AuthenticatedNavbar = () => {
     ];
 
     // Role display mapping
-    const roleDisplay = role === 'ADMIN' ? 'IT Administrator' : role === 'APPROVER' ? 'Approver' : 'Procurement Manager';
-    const roleBadgeInitial = role === 'ADMIN' ? 'IT' : role === 'APPROVER' ? 'AP' : 'PM';
+    const roleDisplay = role === 'ADMIN' ? 'IT Administrator' : 'Procurement Manager';
+    const roleBadgeInitial = role === 'ADMIN' ? 'IT' : 'PM';
 
     // Specific links
-    if (role === 'BUYER' || role === 'APPROVER') {
+    if (role === 'BUYER') {
         links.push({ name: 'Cart', href: '/cart' });
     }
 
@@ -42,6 +42,9 @@ export const AuthenticatedNavbar = () => {
         links.push({ name: 'Deployments', href: '/deployments' });
         links.push({ name: 'Tracking', href: '/tracking' });
     }
+
+    // Settings link for all users
+    links.push({ name: 'Settings', href: '/settings' });
 
     const handleLogout = () => {
         logout();
@@ -79,8 +82,8 @@ export const AuthenticatedNavbar = () => {
                                     {link.name}
                                 </Link>
                             ))}
-                            {/* Cart Icon - Only for BUYER/APPROVER */}
-                            {(role === 'BUYER' || role === 'APPROVER') && (
+                            {/* Cart Icon - Only for BUYER */}
+                            {role === 'BUYER' && (
                                 <Link
                                     href="/cart"
                                     className={cn(
