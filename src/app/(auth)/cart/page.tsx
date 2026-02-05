@@ -1,52 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
-import { CartItem } from '@/components/business/CartItem';
+import React, { useEffect } from 'react';
+import { CartItem as CartItemComponent } from '@/components/business/CartItem';
 import { OrderSummary } from '@/components/business/OrderSummary';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
-
-// Mock initial state based on mockup
-const INITIAL_CART = [
-    {
-        id: 1,
-        title: 'ProBook Elite G9',
-        sku: 'LP-9023-EL',
-        price: 1499.00,
-        quantity: 5
-    },
-    {
-        id: 2,
-        title: 'UltraView 27" 4K Display',
-        sku: 'MN-4001-UV',
-        price: 429.00,
-        quantity: 10
-    },
-    {
-        id: 4,
-        title: 'Wireless Desktop Set',
-        sku: 'AC-2200-WD',
-        price: 129.00,
-        quantity: 20
-    }
-];
+import { useAppDispatch, useAppSelector } from '@/lib/redux/hooks';
+import { selectCartItems, selectCartCount, selectCartTotal, removeFromCart, updateQuantity, initializeCart } from '@/lib/redux/slices/cartSlice';
+import { useAuth } from '@/lib/hooks/useAuth';
 
 export default function CartPage() {
-    const [items, setItems] = useState(INITIAL_CART);
+    const { user } = useAuth();
+    const dispatch = useAppDispatch();
+    const items = useAppSelector(selectCartItems);
+    const itemCount = useAppSelector(selectCartCount);
+    const subtotal = useAppSelector(selectCartTotal);
 
-    const updateQuantity = (id: number, newQty: number) => {
-        setItems(items.map(item =>
-            item.id === id ? { ...item, quantity: Math.max(1, newQty) } : item
-        ));
-    };
-
-    const removeItem = (id: number) => {
-        setItems(items.filter(item => item.id !== id));
-    };
-
-    // Calculations
-    const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    // Initialize cart from localStorage when component mounts
+    useEffect(() => {
+        if (user?.id) {
+            dispatch(initializeCart(user.id));
+        }
+    }, [user?.id, dispatch]);
 
     return (
         <div className="space-y-8 pb-12">
@@ -79,14 +54,16 @@ export default function CartPage() {
                                     Your cart is empty.
                                 </div>
                             ) : (
-                                items.map(item => (
-                                    <CartItem
-                                        key={item.id}
-                                        {...item}
-                                        onUpdateQuantity={(q) => updateQuantity(item.id, q)}
-                                        onRemove={() => removeItem(item.id)}
-                                    />
-                                ))
+                                <div className="space-y-4">
+                                    {items.map((item) => (
+                                        <CartItemComponent
+                                            key={item.id}
+                                            {...item}
+                                            onQuantityChange={(newQty) => dispatch(updateQuantity({ id: item.id, quantity: newQty, userId: user?.id }))}
+                                            onRemove={() => dispatch(removeFromCart({ id: item.id, userId: user?.id }))}
+                                        />
+                                    ))}
+                                </div>
                             )}
                         </div>
                     </div>
