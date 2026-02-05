@@ -2,6 +2,7 @@
 
 import React, { use } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound, useRouter } from 'next/navigation';
 import { products } from '@/lib/data/mockProducts';
 import { ChevronLeft, Monitor, Cpu, HardDrive, ShieldCheck, Printer, ArrowLeft } from 'lucide-react';
@@ -21,7 +22,7 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
 
     // Protect route styling
     if (!loading && user?.role !== 'ADMIN') {
-        // Optional: redirect or just render standard layou
+        // Optional: redirect or just render standard layout
         // For strictness, let's keep it accessible but visual style is IT Admin
     }
 
@@ -30,6 +31,10 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
         { name: product.category, href: '#' },
         { name: product.title, href: '#' },
     ];
+
+    // Get all specs as an array of key-value pairs
+    const specs = product.specs || {};
+    const specEntries = Object.entries(specs);
 
     return (
         <div className="max-w-7xl mx-auto pb-12">
@@ -58,12 +63,24 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
                 {/* Left Column: Product Image (Large) */}
                 <div className="bg-white rounded-lg border border-gray-100 p-8 shadow-sm">
                     <div className="aspect-[4/3] w-full bg-gray-50 rounded-lg relative overflow-hidden flex items-center justify-center">
-                        {/* Placeholder for Next/Image */}
-                        <div className="w-full h-full bg-gray-200 rounded opacity-20 transform scale-90"></div>
-                        <div className="absolute inset-0 opacity-5" style={{
-                            backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
-                            backgroundSize: '20px 20px'
-                        }}></div>
+                        {product.image ? (
+                            <Image
+                                src={product.image}
+                                alt={product.title}
+                                fill
+                                className="object-contain p-8"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                priority
+                            />
+                        ) : (
+                            <>
+                                <div className="w-full h-full bg-gray-200 rounded opacity-20 transform scale-90"></div>
+                                <div className="absolute inset-0 opacity-5" style={{
+                                    backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+                                    backgroundSize: '20px 20px'
+                                }}></div>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -92,7 +109,7 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
                         {product.description}
                     </p>
 
-                    {/* Tech Specs Card */}
+                    {/* Tech Specs Card - Dynamic */}
                     <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
                         <div className="flex items-center gap-2 mb-6">
                             <Cpu className="w-5 h-5 text-blue-600" />
@@ -100,44 +117,12 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
                         </div>
 
                         <div className="grid grid-cols-2 gap-y-6 gap-x-8">
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Processor</h4>
-                                <p className="text-sm font-medium text-gray-900">{product.specs.processor}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Memory</h4>
-                                <p className="text-sm font-medium text-gray-900">{product.specs.memory}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Storage</h4>
-                                <p className="text-sm font-medium text-gray-900">{product.specs.storage}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Display</h4>
-                                <p className="text-sm font-medium text-gray-900">
-                                    {(product.specs as any).display || 'N/A'}
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Graphics</h4>
-                                <p className="text-sm font-medium text-gray-900">{product.specs.graphics}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Operating System</h4>
-                                <p className="text-sm font-medium text-gray-900">{product.specs.os}</p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Battery</h4>
-                                <p className="text-sm font-medium text-gray-900">
-                                    {(product.specs as any).battery || 'Standard Cell'}
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-xs font-semibold text-gray-400 mb-1">Weight</h4>
-                                <p className="text-sm font-medium text-gray-900">
-                                    {(product.specs as any).weight || 'N/A'}
-                                </p>
-                            </div>
+                            {specEntries.map(([key, value]) => (
+                                <div key={key}>
+                                    <h4 className="text-xs font-semibold text-gray-400 mb-1 capitalize">{key}</h4>
+                                    <p className="text-sm font-medium text-gray-900">{value}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
