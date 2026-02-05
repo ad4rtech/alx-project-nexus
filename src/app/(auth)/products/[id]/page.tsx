@@ -7,11 +7,16 @@ import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { products } from '@/lib/data/mockProducts';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { useCart } from '@/lib/context/CartContext';
+import { useToast } from '@/lib/context/ToastContext';
 
 export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const productId = parseInt(id);
     const product = products.find(p => p.id === productId);
+    const { addItem } = useCart();
+    const { showToast } = useToast();
 
     if (!product) {
         notFound();
@@ -24,6 +29,17 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
         graphics: 'N/A',
         memory: 'N/A',
         storage: 'N/A'
+    };
+
+    const handleAddToCart = () => {
+        addItem({
+            id: product.id,
+            title: product.title,
+            sku: product.model || `PROD-${product.id}`,
+            price: product.price,
+            image: product.image
+        });
+        showToast(`${product.title} added to cart!`, 'success');
     };
 
     return (
@@ -41,23 +57,33 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 
                 {/* Main Content - Left Column */}
                 <div className="lg:col-span-2 space-y-8">
-                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight font-display mb-2">
-                        Product Details
-                    </h1>
-                    <p className="text-sm text-gray-500 -mt-6 mb-8">
-                        Review specifications, warranty, and supplier details before ordering.
-                    </p>
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900 tracking-tight font-display mb-2">
+                            Product Details
+                        </h1>
+                        <p className="text-sm text-gray-500">
+                            Review specifications, warranty, and supplier details before ordering.
+                        </p>
+                    </div>
 
                     {/* Product Header Card */}
                     <div className="bg-white rounded-lg p-6 border border-gray-100 flex flex-col md:flex-row gap-8">
                         {/* Product Image Area */}
                         <div className="w-full md:w-1/2 bg-gray-50 rounded-lg aspect-square border border-gray-100 relative overflow-hidden">
-                            {/* Scale Checkerboard */}
-                            <div className="absolute inset-0 opacity-10" style={{
-                                backgroundImage: 'repeating-linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), repeating-linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)',
-                                backgroundPosition: '0 0, 10px 10px',
-                                backgroundSize: '20px 20px'
-                            }}></div>
+                            {product.image ? (
+                                <Image
+                                    src={product.image}
+                                    alt={product.title}
+                                    fill
+                                    className="object-contain p-8"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    priority
+                                />
+                            ) : (
+                                <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
+                                    No image available
+                                </div>
+                            )}
                         </div>
 
                         {/* Info Area */}
@@ -80,9 +106,14 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                 {product.description}
                             </p>
 
-                            <div className="mt-8 flex gap-3">
-                                <Button size="lg" className="flex-1 bg-blue-600 hover:bg-blue-700">Add to Cart</Button>
-                                <Button variant="outline" size="lg" className="flex-1">Request Quote</Button>
+                            <div className="mt-8">
+                                <Button
+                                    size="lg"
+                                    className="w-full bg-blue-600 hover:bg-blue-700"
+                                    onClick={handleAddToCart}
+                                >
+                                    Add to Cart
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -109,11 +140,15 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                             <h3 className="text-base font-bold text-gray-900">Warranty Information</h3>
                         </div>
                         <div className="p-6">
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="text-sm font-bold text-gray-900">{product.warranty}</span>
+                                {product.supportProvider && (
+                                    <span className="text-xs text-gray-500">• {product.supportProvider}</span>
+                                )}
+                            </div>
                             <p className="text-sm text-gray-500 leading-relaxed">
-                                This product comes with a 3-Year ProSupport Plus Warranty with Next Business Day Onsite Service. Coverage includes accidental damage protection, keep your hard drive service, and 24/7 access to expert hardware and software support.
-                            </p>
-                            <p className="text-sm text-gray-500 leading-relaxed mt-4">
-                                Standard battery warranty is 1 year. Extended battery service options are available upon request.
+                                {product.warrantyDescription ||
+                                    `This product comes with ${product.warranty} warranty coverage. For detailed warranty terms and conditions, please contact our support team.`}
                             </p>
                         </div>
                     </div>
