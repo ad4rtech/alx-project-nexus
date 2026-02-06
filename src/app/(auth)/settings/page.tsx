@@ -7,14 +7,12 @@ import { Input } from '@/components/ui/Input';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { updateProfile } from '@/lib/supabase/profiles';
 import { User, ShoppingCart, Shield } from 'lucide-react';
-import { Role } from '@/types';
 import { cn } from '@/lib/utils/cn';
 
 export default function SettingsPage() {
     const { user, loading } = useAuth();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState<Role>('BUYER');
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
@@ -22,7 +20,6 @@ export default function SettingsPage() {
         if (user) {
             setName(user.name);
             setEmail(user.email);
-            setRole(user.role);
         }
     }, [user]);
 
@@ -36,11 +33,11 @@ export default function SettingsPage() {
         try {
             await updateProfile(user.id, {
                 name,
-                role,
             });
             setMessage({ type: 'success', text: 'Profile updated successfully!' });
-        } catch (error: any) {
-            setMessage({ type: 'error', text: error.message || 'Failed to update profile' });
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Failed to update profile';
+            setMessage({ type: 'error', text: errorMessage });
         } finally {
             setIsSaving(false);
         }
@@ -48,7 +45,7 @@ export default function SettingsPage() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         );
@@ -112,38 +109,22 @@ export default function SettingsPage() {
                         <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
                     </div>
 
-                    {/* Role Selection */}
+                    {/* Role Display (Read-only) */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Role</label>
-                        <div className="grid grid-cols-2 gap-3">
-                            <button
-                                type="button"
-                                onClick={() => setRole('BUYER')}
-                                className={cn(
-                                    "flex flex-col items-center justify-center p-4 border rounded-xl transition-all",
-                                    role === 'BUYER'
-                                        ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-600"
-                                        : "border-gray-200 hover:border-blue-200 hover:bg-gray-50 text-gray-600"
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                        <div className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-md">
+                            <div className="flex items-center gap-2">
+                                {user.role === 'ADMIN' ? (
+                                    <Shield className="h-5 w-5 text-blue-600" />
+                                ) : (
+                                    <ShoppingCart className="h-5 w-5 text-blue-600" />
                                 )}
-                            >
-                                <ShoppingCart className={cn("h-6 w-6 mb-2", role === 'BUYER' ? "text-blue-600" : "text-gray-400")} />
-                                <span className="text-xs font-semibold">Procurement Manager</span>
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={() => setRole('ADMIN')}
-                                className={cn(
-                                    "flex flex-col items-center justify-center p-4 border rounded-xl transition-all",
-                                    role === 'ADMIN'
-                                        ? "border-blue-600 bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-600"
-                                        : "border-gray-200 hover:border-blue-200 hover:bg-gray-50 text-gray-600"
-                                )}
-                            >
-                                <Shield className={cn("h-6 w-6 mb-2", role === 'ADMIN' ? "text-blue-600" : "text-gray-400")} />
-                                <span className="text-xs font-semibold">IT Administrator</span>
-                            </button>
+                                <span className="text-sm font-medium text-gray-900">
+                                    {user.role === 'ADMIN' ? 'IT Administrator' : 'Procurement Manager'}
+                                </span>
+                            </div>
                         </div>
+                        <p className="text-xs text-gray-500 mt-1">Role cannot be changed</p>
                     </div>
 
                     {/* Success/Error Message */}
