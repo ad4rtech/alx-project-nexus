@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound, useRouter } from 'next/navigation';
 import { products } from '@/lib/data/mockProducts';
-import { ChevronLeft, Monitor, Cpu, HardDrive, ShieldCheck, Printer, ArrowLeft } from 'lucide-react';
+import { Cpu, ShieldCheck, Printer, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 
@@ -22,8 +22,7 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
 
     // Protect route styling
     if (!loading && user?.role !== 'ADMIN') {
-        // Optional: redirect or just render standard layout
-        // For strictness, let's keep it accessible but visual style is IT Admin
+
     }
 
     const breadcrumbs = [
@@ -60,9 +59,9 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-                {/* Left Column: Product Image (Large) */}
+                {/* Left Column: Product Image  */}
                 <div className="bg-white rounded-lg border border-gray-100 p-8 shadow-sm">
-                    <div className="aspect-[4/3] w-full bg-gray-50 rounded-lg relative overflow-hidden flex items-center justify-center">
+                    <div className="aspect-4/3 w-full bg-gray-50 rounded-lg relative overflow-hidden flex items-center justify-center">
                         {product.image ? (
                             <Image
                                 src={product.image}
@@ -96,7 +95,7 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
                         </h1>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-bold text-gray-900">
-                                ${product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                KSh {product.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                             </span>
                             <span className="text-sm text-gray-400 font-medium">
                                 / unit (Corporate Pricing)
@@ -133,12 +132,12 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
                             <h3 className="text-base font-bold text-gray-900">Warranty & Support</h3>
                         </div>
                         <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                            {(product as any).warrantyDescription || 'Includes standard manufacturer warranty.'}
+                            {(product as unknown as Record<string, string>).warrantyDescription || 'Includes standard manufacturer warranty.'}
                         </p>
                         <div>
                             <h4 className="text-xs font-semibold text-gray-400 mb-1">Support Provider</h4>
                             <p className="text-sm font-medium text-gray-900">
-                                {(product as any).supportProvider || 'Manufacturer Support'}
+                                {(product as unknown as Record<string, string>).supportProvider || 'Manufacturer Support'}
                             </p>
                         </div>
                     </div>
@@ -149,7 +148,7 @@ export default function EquipmentDetailsPage({ params }: { params: Promise<{ id:
                             <Printer className="w-4 h-4" />
                             Print Specs
                         </Button>
-                        <Button variant="outline" onClick={() => router.push('/equipment')} className="flex-[2] flex items-center justify-center border-gray-200 text-gray-700 hover:bg-gray-50">
+                        <Button variant="outline" onClick={() => router.push('/equipment')} className="flex-2 flex items-center justify-center border-gray-200 text-gray-700 hover:bg-gray-50">
                             Return to Catalog
                         </Button>
                     </div>
