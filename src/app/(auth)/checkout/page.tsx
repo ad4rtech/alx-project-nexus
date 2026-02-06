@@ -52,7 +52,7 @@ export default function CheckoutPage() {
     // RBAC Protection
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         );
@@ -187,44 +187,33 @@ export default function CheckoutPage() {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Address Line 2
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="Suite, building, floor (optional)"
-                                        value={shippingAddress.address2}
-                                        onChange={(e) => handleInputChange('address2', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    />
-                                </div>
+
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            City <span className="text-red-500">*</span>
+                                            Country <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
-                                            placeholder="City"
+                                            placeholder="Country"
                                             required
-                                            value={shippingAddress.city}
-                                            onChange={(e) => handleInputChange('city', e.target.value)}
+                                            value={shippingAddress.state}
+                                            onChange={(e) => handleInputChange('state', e.target.value)}
                                             className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         />
                                     </div>
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            State <span className="text-red-500">*</span>
+                                            County <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
-                                            placeholder="State"
+                                            placeholder="County"
                                             required
-                                            value={shippingAddress.state}
-                                            onChange={(e) => handleInputChange('state', e.target.value)}
+                                            value={shippingAddress.city}
+                                            onChange={(e) => handleInputChange('city', e.target.value)}
                                             className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                         />
                                     </div>
@@ -261,7 +250,7 @@ export default function CheckoutPage() {
                                             <p className="text-gray-500 text-xs">Qty: {item.quantity}</p>
                                         </div>
                                         <span className="font-semibold text-gray-900">
-                                            ${(item.price * item.quantity).toFixed(2)}
+                                            KSh {(item.price * item.quantity).toFixed(2)}
                                         </span>
                                     </div>
                                 ))}
@@ -271,11 +260,11 @@ export default function CheckoutPage() {
                             <div className="space-y-2 pt-4 border-t border-gray-200">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">Subtotal ({itemCount} items)</span>
-                                    <span className="font-medium text-gray-900">${subtotal.toFixed(2)}</span>
+                                    <span className="font-medium text-gray-900">KSh {subtotal.toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">Shipping</span>
-                                    <span className="font-medium text-gray-900">$150.00</span>
+                                    <span className="font-medium text-gray-900">KSh 150.00</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">Tax (8.5%)</span>
