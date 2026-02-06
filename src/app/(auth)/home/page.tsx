@@ -3,16 +3,25 @@
 import { Card } from '@/components/ui/Card';
 import { useAuth } from '@/lib/hooks/useAuth';
 import Link from 'next/link';
-import { ShoppingCart, Laptop, Package, ArrowRight, ExternalLink, Calendar, CheckSquare, Users, ClipboardList } from 'lucide-react';
+import { ShoppingCart, Laptop, Package, Calendar, CheckSquare, Users, ClipboardList } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useState, useEffect } from 'react';
 import { fetchOrders } from '@/lib/actions/orders';
 import { StatusBadge } from '@/components/business/StatusBadge';
 
 export default function DashboardHome() {
+    interface Order {
+        id: string;
+        order_number: string;
+        items: { title: string; name: string }[];
+        created_at: string;
+        total_amount: number;
+        status: 'PENDING' | 'SHIPPED' | 'DELIVERED' | 'DEPLOYED';
+    }
+
     const { user, loading } = useAuth();
     const isITAdmin = user?.role === 'ADMIN';
-    const [recentOrders, setRecentOrders] = useState<any[]>([]);
+    const [recentOrders, setRecentOrders] = useState<Order[]>([]);
     const [loadingOrders, setLoadingOrders] = useState(true);
 
     useEffect(() => {
@@ -37,7 +46,7 @@ export default function DashboardHome() {
     // Show loading state while auth is loading
     if (loading || loadingOrders) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         );
@@ -66,7 +75,7 @@ export default function DashboardHome() {
                                 Manage Deployments
                             </Button>
                         </Link>
-                        <Link href="/products">
+                        <Link href="/equipment">
                             <Button variant="outline" className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 px-6 py-2.5 h-auto text-base font-medium rounded-lg">
                                 Browse Catalog
                             </Button>
@@ -84,7 +93,7 @@ export default function DashboardHome() {
                                 <p className="text-gray-500 text-sm">Recent procurement orders pending arrival.</p>
                             </div>
                             <Link href="/orders">
-                                <button className="text-sm font-medium text-blue-600 hover:text-blue-700 font-medium">
+                                <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
                                     View all
                                 </button>
                             </Link>
@@ -111,7 +120,7 @@ export default function DashboardHome() {
                                                 </div>
                                                 <div className="text-sm text-gray-500">
                                                     {order.items && order.items.length > 0 ? (
-                                                        order.items.map((item: any, idx: number) => (
+                                                        order.items.map((item, idx) => (
                                                             <span key={idx}>
                                                                 {item.title || item.name}
                                                                 {idx < order.items.length - 1 ? ', ' : ''}
@@ -219,7 +228,7 @@ export default function DashboardHome() {
                             View Orders
                         </Button>
                     </Link>
-                    <Link href="/checkout">
+                    <Link href="/cart">
                         <Button variant="outline" className="bg-white hover:bg-gray-50 text-gray-700 border-gray-200 px-6 py-2.5 h-auto text-base font-medium rounded-lg">
                             Go to Cart
                         </Button>
@@ -264,7 +273,7 @@ export default function DashboardHome() {
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center justify-between mb-1">
                                         <h3 className="text-base font-semibold text-gray-900">Review your cart</h3>
-                                        <Link href="/checkout" className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                                        <Link href="/cart" className="text-sm font-medium text-blue-600 hover:text-blue-700">
                                             Open
                                         </Link>
                                     </div>
@@ -333,7 +342,7 @@ export default function DashboardHome() {
                                             </div>
                                             <div className="text-sm text-gray-500">
                                                 {order.items && order.items.length > 0 ? (
-                                                    order.items.map((item: any, idx: number) => (
+                                                    order.items.map((item, idx) => (
                                                         <span key={idx}>
                                                             {item.title || item.name}
                                                             {idx < order.items.length - 1 ? ', ' : ''}
@@ -348,7 +357,7 @@ export default function DashboardHome() {
                                                     month: 'short',
                                                     day: 'numeric',
                                                     year: 'numeric'
-                                                })} · ${order.total_amount.toFixed(2)}
+                                                })} · KSh {order.total_amount.toFixed(2)}
                                             </div>
                                         </div>
                                         <StatusBadge status={order.status} />
