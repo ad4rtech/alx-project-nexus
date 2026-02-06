@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { StatusBadge } from '@/components/business/StatusBadge';
-import { ITAdminOrdersTable } from '@/components/business/ITAdminOrdersTable';
 import { Search, Package, Building2 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { fetchOrders } from '@/lib/actions/orders';
@@ -18,7 +17,12 @@ type Order = {
     total_amount: number;
     ship_to_department: string;
     estimated_delivery?: string;
-    items: any[];
+    items: {
+        title: string;
+        name: string;
+        quantity: number;
+        price: number;
+    }[];
 };
 
 export default function OrdersPage() {
@@ -70,7 +74,7 @@ export default function OrdersPage() {
 
     if (loading || loadingOrders) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading orders...</div>
             </div>
         );
@@ -146,7 +150,7 @@ export default function OrdersPage() {
                                             <td className="px-6 py-6 text-sm text-gray-900">
                                                 {order.items && order.items.length > 0 ? (
                                                     <div className="flex flex-col gap-1">
-                                                        {order.items.map((item: any, idx: number) => (
+                                                        {order.items.map((item, idx) => (
                                                             <div key={idx} className="flex items-center gap-2">
                                                                 <span className="font-medium">{item.title || item.name || 'Unknown Product'}</span>
                                                                 <span className="text-gray-500">×{item.quantity}</span>
@@ -168,7 +172,7 @@ export default function OrdersPage() {
                                                 <StatusBadge status={order.status} />
                                             </td>
                                             <td className="px-6 py-6 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                ${order.total_amount.toFixed(2)}
+                                                KSh {order.total_amount.toFixed(2)}
                                             </td>
                                         </tr>
                                     ))
@@ -227,13 +231,13 @@ export default function OrdersPage() {
                                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
                                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Items</th>
                                 <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Amount</th>
-                                <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
+
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {filteredOrders.length === 0 ? (
                                 <tr>
-                                    <td colSpan={7} className="px-6 py-12">
+                                    <td colSpan={6} className="px-6 py-12">
                                         <div className="text-center">
                                             <Package className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                                             <p className="text-gray-500 mb-4">
@@ -277,7 +281,7 @@ export default function OrdersPage() {
                                         <td className="px-6 py-4 text-sm text-gray-900">
                                             {order.items && order.items.length > 0 ? (
                                                 <div className="flex flex-col gap-1">
-                                                    {order.items.map((item: any, idx: number) => (
+                                                    {order.items.map((item, idx) => (
                                                         <div key={idx} className="flex items-center gap-2">
                                                             <span className="font-medium">{item.title || item.name || 'Unknown Product'}</span>
                                                             <span className="text-gray-500">×{item.quantity}</span>
@@ -289,14 +293,7 @@ export default function OrdersPage() {
                                             )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            ${order.total_amount.toFixed(2)}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <Link href={`/orders/${order.id}`}>
-                                                <button className="text-gray-600 hover:text-gray-900 font-medium border border-gray-200 rounded px-3 py-1 text-xs hover:bg-gray-50">
-                                                    View Details
-                                                </button>
-                                            </Link>
+                                            KSh {order.total_amount.toFixed(2)}
                                         </td>
                                     </tr>
                                 ))

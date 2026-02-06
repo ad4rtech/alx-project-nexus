@@ -3,7 +3,7 @@
 import React, { use, useEffect, useState } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Box, Truck, MapPin, CheckCircle, Package2 } from 'lucide-react';
+import { ArrowLeft, Box, Truck, MapPin, Package2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { StatusBadge } from '@/components/business/StatusBadge';
 import { useAuth } from '@/lib/hooks/useAuth';
@@ -11,22 +11,59 @@ import { fetchOrderById, updateOrderStatus, OrderStatus } from '@/lib/actions/or
 import { useToast } from '@/lib/context/ToastContext';
 
 export default function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+    // Define roughly the shape we need, or just use a looser type to avoid 'any'
+    interface Order {
+        id: string;
+        order_number: string;
+        created_at: string;
+        status: OrderStatus;
+        total_amount: number;
+        items: {
+            title: string;
+            name: string;
+            quantity: number;
+            price: number;
+            image?: string;
+            sku?: string;
+        }[];
+        status_history: {
+            id: string; // Added id
+            status: string;
+            created_at: string;
+            notes?: string;
+            from_status?: string; // Added from_status
+            to_status?: string; // Added to_status
+        }[];
+        shipped_at?: string;
+        delivered_at?: string;
+        deployed_at?: string;
+        carrier?: string;
+        tracking_number?: string;
+        estimated_delivery?: string;
+        ship_to_department: string;
+        ship_to_contact: string;
+        ship_to_address: {
+            address1: string;
+            address2?: string; // Added address2
+            city: string;
+            state: string;
+            zip: string;
+        };
+        created_by_profile?: { name: string; email: string };
+    }
+
     const { id } = use(params);
     const { user } = useAuth();
     const { showToast } = useToast();
-    const router = useRouter();
+    // router removed as it was unused
 
-    const [order, setOrder] = useState<any>(null);
+    const [order, setOrder] = useState<Order | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
 
     const isAdmin = user?.role === 'ADMIN';
 
-    useEffect(() => {
-        loadOrder();
-    }, [id]);
-
-    const loadOrder = async () => {
+    const loadOrder = React.useCallback(async () => {
         setLoading(true);
         const result = await fetchOrderById(id);
         if (result.error || !result.order) {
@@ -35,7 +72,11 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             setOrder(result.order);
         }
         setLoading(false);
-    };
+    }, [id]);
+
+    useEffect(() => {
+        loadOrder();
+    }, [loadOrder]);
 
     const handleStatusUpdate = async (newStatus: OrderStatus) => {
         if (!confirm(`Update order status to ${newStatus}?`)) return;
@@ -54,7 +95,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading order...</div>
             </div>
         );
@@ -126,14 +167,14 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
                         </div>
 
                         <div className="space-y-4">
-                            {order.items?.map((item: any, idx: number) => (
+                            {order.items?.map((item, idx) => (
                                 <div key={idx} className="flex items-start gap-4 pb-4 border-b border-gray-50 last:border-0 last:pb-0">
                                     {/* Thumbnail */}
-                                    <div className="w-16 h-12 bg-gray-100 rounded border border-gray-200 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-16 h-12 bg-gray-100 rounded border border-gray-200 flex items-center justify-center shrink-0">
                                         <Package2 className="w-6 h-6 text-gray-400" />
                                     </div>
 
-                                    <div className="flex-grow">
+                                    <div className="grow">
                                         <h4 className="text-sm font-bold text-gray-900">{item.title}</h4>
                                         <p className="text-xs text-gray-500 mt-0.5">SKU: {item.sku}</p>
                                         <p className="text-xs text-gray-500">Price: ${item.price.toFixed(2)}</p>
@@ -161,7 +202,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
                         <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
                             <h3 className="text-base font-bold text-gray-900 mb-4">Status History</h3>
                             <div className="space-y-3">
-                                {order.status_history.map((history: any) => (
+                                {order.status_history.map((history) => (
                                     <div key={history.id} className="flex justify-between items-start text-sm border-b border-gray-50 pb-3 last:border-0 last:pb-0">
                                         <div>
                                             <p className="font-medium text-gray-900">
