@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useScrollSpy } from '@/lib/hooks/useScrollSpy';
 
 // Reusable Help Card Component
 const HelpCard = ({ title, children }: { title: string, children: React.ReactNode }) => (
@@ -12,6 +15,9 @@ const HelpCard = ({ title, children }: { title: string, children: React.ReactNod
 );
 
 export default function HelpPage() {
+    const categoryIds = ['cat-0', 'cat-1', 'cat-2', 'cat-3', 'cat-4', 'cat-5'];
+    const activeId = useScrollSpy(categoryIds);
+
     return (
         <div className="bg-white min-h-screen">
             {/* Header */}
@@ -25,7 +31,7 @@ export default function HelpPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row gap-12">
 
                 {/* Sidebar Navigation */}
-                <div className="hidden md:block w-48 flex-shrink-0">
+                <div className="hidden md:block w-48 shrink-0">
                     <div className="sticky top-24">
                         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Categories</h3>
                         <ul className="space-y-3 text-sm font-medium text-gray-500">
@@ -34,7 +40,7 @@ export default function HelpPage() {
                                 'Products & Suppliers', 'Contact Support'
                             ].map((item, idx) => (
                                 <li key={idx}>
-                                    <Link href={`#cat-${idx}`} className={`block hover:text-blue-600 transition-colors ${idx === 0 ? 'text-blue-600 font-bold' : ''}`}>
+                                    <Link href={`#cat-${idx}`} className={`block hover:text-blue-600 transition-colors ${activeId === `cat-${idx}` ? 'text-blue-600 font-bold' : ''}`}>
                                         {item}
                                     </Link>
                                 </li>
@@ -44,7 +50,7 @@ export default function HelpPage() {
                 </div>
 
                 {/* Main Content Info */}
-                <div className="flex-grow space-y-12">
+                <div className="grow space-y-12">
 
                     {/* Category: Getting Started */}
                     <section id="cat-0">
@@ -67,7 +73,7 @@ export default function HelpPage() {
                         <div className="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
                             <h3 className="text-sm font-bold text-gray-900 mb-2">How do I register my company?</h3>
                             <p className="text-sm text-gray-600 mb-4">
-                                Use the Sign Up page and select "Create Organization Profile" during onboarding.
+                                Use the Sign Up page and select &quot;Create Organization Profile&quot; during onboarding.
                             </p>
                             <h3 className="text-sm font-bold text-gray-900 mb-2">Which flow should I choose?</h3>
                             <p className="text-sm text-gray-600">
@@ -85,7 +91,7 @@ export default function HelpPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <HelpCard title="Secure Login">
-                                <p>We use secure session-based authentication. Passwords must be at least 12 characters with mixed case and symbols.</p>
+                                <p>We use secure session-based authentication. Passwords must be at least 6 characters with mixed case and symbols.</p>
                             </HelpCard>
                             <HelpCard title="Session Timeout">
                                 <p>For security, sessions expire after 24 hours of inactivity. You will need to re-authenticate to continue.</p>
@@ -94,11 +100,14 @@ export default function HelpPage() {
                         {/* FAQ list style */}
                         <div className="bg-white border border-gray-100 rounded-lg p-6 shadow-sm space-y-4">
                             <div>
-                                <h3 className="text-sm font-bold text-gray-900">Forgot my password - what do I do?</h3>
-                                <p className="text-sm text-gray-600 mt-1">Click "Forgot Password" on the login screen. We'll send a reset link to your registered email.</p>
+                                <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                                    Forgot my password - what do I do?
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-50 text-yellow-700 uppercase tracking-wide border border-yellow-200">Future Feature</span>
+                                </h3>
+                                <p className="text-sm text-gray-600 mt-1">Click &quot;Forgot Password&quot; on the login screen. We&apos;ll send a reset link to your registered email.</p>
                             </div>
                             <div>
-                                <h3 className="text-sm font-bold text-gray-900">Why can't I see order history?</h3>
+                                <h3 className="text-sm font-bold text-gray-900">Why can&apos;t I see order history?</h3>
                                 <p className="text-sm text-gray-600 mt-1">Some data is restricted by role. E.g., Only Procurement Managers can see billing history.</p>
                             </div>
                         </div>
@@ -115,7 +124,7 @@ export default function HelpPage() {
                                 <p>Browse the catalog, add items to your cart, and proceed to checkout. You can adjust quantities and bulk-purchase directly within cart.</p>
                             </HelpCard>
                             <HelpCard title="Approval Process">
-                                <p>Orders over $5,000 may require secondary approval from your organization's admin before processing.</p>
+                                <p>Orders over $5,000 may require secondary approval from your organization&apos;s admin before processing.</p>
                             </HelpCard>
                         </div>
                         <div className="bg-white border border-gray-100 rounded-lg p-6 shadow-sm space-y-4">
@@ -125,7 +134,7 @@ export default function HelpPage() {
                             </div>
                             <div>
                                 <h3 className="text-sm font-bold text-gray-900">Can I edit an order after placing it?</h3>
-                                <p className="text-sm text-gray-600 mt-1">Orders can only be edited while in 'Pending' status. Contact support immediately for changes.</p>
+                                <p className="text-sm text-gray-600 mt-1">Orders can only be edited while in &apos;Pending&apos; status. Contact support immediately for changes.</p>
                             </div>
                         </div>
                     </section>
@@ -146,7 +155,7 @@ export default function HelpPage() {
                         </div>
                         <div className="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
                             <h3 className="text-sm font-bold text-gray-900">How do I track an order?</h3>
-                            <p className="text-sm text-gray-600 mt-1">Go to 'Orders' board, select your order, and click the tracking number link.</p>
+                            <p className="text-sm text-gray-600 mt-1">Go to &apos;Orders&apos; board, select your order, and click the tracking number link.</p>
                         </div>
                     </section>
 
@@ -158,7 +167,7 @@ export default function HelpPage() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <HelpCard title="Verified Suppliers">
-                                <p>The "Verified Supplier" badge indicates they have passed our strict business verification standards.</p>
+                                <p>The &quot;Verified Supplier&quot; badge indicates they have passed our strict business verification standards.</p>
                             </HelpCard>
                             <HelpCard title="Warranty">
                                 <p>All electronics come with standard manufacturer warranty. Extended options are available on product pages.</p>
@@ -166,7 +175,7 @@ export default function HelpPage() {
                         </div>
                         <div className="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
                             <h3 className="text-sm font-bold text-gray-900">Where can I see technical details?</h3>
-                            <p className="text-sm text-gray-600 mt-1">If you are an IT Admin, the "Specs" tab on product pages contains full technical usage.</p>
+                            <p className="text-sm text-gray-600 mt-1">If you are an IT Admin, the &quot;Specs&quot; tab on product pages contains full technical usage.</p>
                         </div>
                     </section>
 

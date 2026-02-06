@@ -1,19 +1,25 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useScrollSpy } from '@/lib/hooks/useScrollSpy';
 
 export default function TermsPage() {
+    const sectionIds = ['section-1', 'section-2', 'section-3', 'section-4', 'section-5', 'section-6', 'section-7', 'section-8', 'section-9', 'section-10'];
+    const activeId = useScrollSpy(sectionIds);
+
     return (
         <div className="bg-white min-h-screen">
             {/* Header */}
             <div className="bg-blue-50 py-16 text-center">
                 <h1 className="text-4xl font-bold text-gray-900 font-display mb-2">Terms of Service</h1>
-                <p className="text-gray-500 text-sm">Last Updated: October 24, 2025</p>
+                <p className="text-gray-500 text-sm">Last Updated: 06/02/2026</p>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row gap-12">
 
                 {/* Sidebar Navigation - Sticky */}
-                <div className="hidden md:block w-64 flex-shrink-0">
+                <div className="hidden md:block w-64 shrink-0">
                     <div className="sticky top-24">
                         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contents</h3>
                         <ul className="space-y-3 text-sm border-l border-gray-200">
@@ -23,7 +29,7 @@ export default function TermsPage() {
                                 '8. Intellectual Property', '9. Termination', '10. Changes to Terms'
                             ].map((item, idx) => (
                                 <li key={idx}>
-                                    <Link href={`#section-${idx + 1}`} className={`block pl-4 border-l-2 ${idx === 0 ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'}`}>
+                                    <Link href={`#section-${idx + 1}`} className={`block pl-4 border-l-2 ${activeId === `section-${idx + 1}` ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'}`}>
                                         {item}
                                     </Link>
                                 </li>
@@ -33,12 +39,12 @@ export default function TermsPage() {
                 </div>
 
                 {/* Main Content */}
-                <div className="flex-grow max-w-3xl space-y-12">
+                <div className="grow max-w-3xl space-y-12">
 
                     <section id="section-1">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">1. Introduction & Acceptance</h2>
                         <p className="text-gray-600 leading-relaxed mb-4">
-                            Welcome to ElectroProcure. These Terms of Service ("Terms") govern your access to and use of our procurement platform and services.
+                            Welcome to ElectroProcure. These Terms of Service (&quot;Terms&quot;) govern your access to and use of our procurement platform and services.
                         </p>
                         <p className="text-gray-600 leading-relaxed">
                             By accessing, registering for, or using ElectroProcure, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use our services.
@@ -81,7 +87,7 @@ export default function TermsPage() {
                         </p>
                         <ul className="list-disc pl-5 space-y-2 text-gray-600">
                             <li>Misusing the platform to defraud or mislead the company.</li>
-                            <li>Attempting to gain unauthorized access to other users' accounts or data.</li>
+                            <li>Attempting to gain unauthorized access to other users&apos; accounts or data.</li>
                             <li>Engaging in data scraping, reverse engineering, or burdening our infrastructure.</li>
                         </ul>
                     </section>
@@ -98,7 +104,7 @@ export default function TermsPage() {
                         </ul>
                     </section>
 
-                    {/* ... Additional Sections Simplified for brevity but following structure ... */}
+                    {/* ... Additional Sections Simplified for brevity but following structure ... z*/}
                     <section id="section-6">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">6. Suppliers & Third Parties</h2>
                         <p className="text-gray-600 leading-relaxed">
@@ -115,7 +121,7 @@ export default function TermsPage() {
                             <strong className="text-gray-900">Warranty:</strong> Warranty terms are governed strictly by the manufacturer or supplier. Please refer to individual product pages for specific warranty details.
                         </p>
                         <p className="text-gray-600 leading-relaxed">
-                            Returns and cancellations are subject to the supplier's terms. Please contact support for assistance with returns or replacements.
+                            Returns and cancellations are subject to the supplier&apos;s terms. Please contact support for assistance with returns or replacements.
                         </p>
                     </section>
 

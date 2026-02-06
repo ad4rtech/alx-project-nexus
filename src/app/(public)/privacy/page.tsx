@@ -1,19 +1,25 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { useScrollSpy } from '@/lib/hooks/useScrollSpy';
 
 export default function PrivacyPage() {
+    const sectionIds = ['section-1', 'section-2', 'section-3', 'section-4', 'section-5', 'section-6', 'section-7', 'section-8'];
+    const activeId = useScrollSpy(sectionIds);
+
     return (
         <div className="bg-white min-h-screen">
             {/* Header */}
             <div className="bg-blue-50 py-16 text-center">
                 <h1 className="text-4xl font-bold text-gray-900 font-display mb-2">Privacy Policy</h1>
-                <p className="text-gray-500 text-sm">Last Updated: October 24, 2025</p>
+                <p className="text-gray-500 text-sm">Last Updated: 06/02/2026</p>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row gap-12">
 
                 {/* Sidebar Navigation */}
-                <div className="hidden md:block w-64 flex-shrink-0">
+                <div className="hidden md:block w-64 shrink-0">
                     <div className="sticky top-24">
                         <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Contents</h3>
                         <ul className="space-y-3 text-sm border-l border-gray-200">
@@ -22,7 +28,7 @@ export default function PrivacyPage() {
                                 '5. Data Security', '6. Data Retention', '7. User Rights', '8. Policy Updates'
                             ].map((item, idx) => (
                                 <li key={idx}>
-                                    <Link href={`#section-${idx + 1}`} className={`block pl-4 border-l-2 ${idx === 0 ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'}`}>
+                                    <Link href={`#section-${idx + 1}`} className={`block pl-4 border-l-2 ${activeId === `section-${idx + 1}` ? 'border-blue-600 text-blue-600 font-bold' : 'border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300'}`}>
                                         {item}
                                     </Link>
                                 </li>
@@ -32,12 +38,12 @@ export default function PrivacyPage() {
                 </div>
 
                 {/* Main Content */}
-                <div className="flex-grow max-w-3xl space-y-12">
+                <div className="grow max-w-3xl space-y-12">
 
                     <section id="section-1">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">1. Introduction</h2>
                         <p className="text-gray-600 leading-relaxed mb-4">
-                            This Privacy Policy explains how ElectroProcure ("we," "our," or "us") collects, uses, and protects your information when you use our platform. We are committed to ensuring that your data is handled securely and transparently.
+                            This Privacy Policy explains how ElectroProcure (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) collects, uses, and protects your information when you use our platform. We are committed to ensuring that your data is handled securely and transparently.
                         </p>
                         <p className="text-gray-600 leading-relaxed">
                             This policy applies to all users of the ElectroProcure platform, including Procurement Managers, IT Administrators, and Organization Representatives.
@@ -143,7 +149,7 @@ export default function PrivacyPage() {
                     <section id="section-8">
                         <h2 className="text-xl font-bold text-gray-900 mb-4">8. Policy Updates</h2>
                         <p className="text-gray-600 leading-relaxed mb-6">
-                            We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. Updated versions will be posted on this page with a revised "Last Updated" date.
+                            We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. Updated versions will be posted on this page with a revised &quot;Last Updated&quot; date.
                         </p>
 
                         {/* Contact Alert Box */}
