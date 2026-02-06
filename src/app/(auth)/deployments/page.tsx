@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { fetchOrders, updateOrderStatus } from '@/lib/actions/orders';
 import { useToast } from '@/lib/context/ToastContext';
@@ -10,7 +9,21 @@ import { useToast } from '@/lib/context/ToastContext';
 export default function DeploymentsPage() {
     const { user, loading } = useAuth();
     const { showToast } = useToast();
-    const [orders, setOrders] = useState<any[]>([]);
+    interface Order {
+        id: string;
+        order_number: string;
+        status: string;
+        items: {
+            title: string;
+            name: string;
+        }[];
+        ship_to_address?: { address1: string };
+        ship_to_department: string;
+        delivered_at?: string;
+        created_at: string;
+    }
+
+    const [orders, setOrders] = useState<Order[]>([]);
     const [loadingOrders, setLoadingOrders] = useState(true);
 
 
@@ -46,7 +59,7 @@ export default function DeploymentsPage() {
     // RBAC Protection - return null early to prevent flash
     if (loading || loadingOrders) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         );
