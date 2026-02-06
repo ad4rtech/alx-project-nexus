@@ -22,7 +22,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
         notFound();
     }
 
-    // Fallback specs if not present in data (for safety)
+    // Fallback specs 
     const specs = product.specs || {
         processor: 'N/A',
         os: 'N/A',
@@ -98,7 +98,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 
                             <div className="mt-6">
                                 <span className="text-3xl font-bold text-blue-600">
-                                    ${product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    KSh {product.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </span>
                             </div>
 
