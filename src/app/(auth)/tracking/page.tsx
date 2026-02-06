@@ -2,21 +2,32 @@
 
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Card } from '@/components/ui/Card';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { fetchOrders, updateOrderStatus } from '@/lib/actions/orders';
 import { useToast } from '@/lib/context/ToastContext';
-import { Search, Filter, CheckCircle2, Package, Truck, Home } from 'lucide-react';
+import { Search, CheckCircle2, Truck, Home } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function TrackingPage() {
+    interface Order {
+        id: string;
+        order_number: string;
+        created_at: string;
+        ship_to_address?: { address1: string };
+        ship_to_department: string;
+        status: string;
+        total_amount: number;
+        items: { title: string; name: string }[];
+        estimated_delivery?: string;
+    }
+
     const { user, loading } = useAuth();
     const { showToast } = useToast();
-    const [orders, setOrders] = useState<any[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [loadingOrders, setLoadingOrders] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('ALL');
-    const [selectedOrder, setSelectedOrder] = useState<any>(null);
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
 
     useEffect(() => {
@@ -54,7 +65,7 @@ export default function TrackingPage() {
     // RBAC Protection - return early to prevent flash
     if (loading || loadingOrders) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         );
