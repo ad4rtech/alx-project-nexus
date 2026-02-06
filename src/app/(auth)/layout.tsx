@@ -1,13 +1,15 @@
 'use client';
 
 import { AuthenticatedNavbar } from '@/components/layout/AuthenticatedNavbar';
+import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/lib/hooks/useAuth';
+import { CartProvider } from '@/lib/context/CartContext';
 import { Loader } from '@/components/ui/Loader';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-    const { user, loading, isAuthenticated } = useAuth();
+    const { loading, isAuthenticated } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -24,14 +26,17 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         );
     }
 
-    if (!isAuthenticated) return null; // Or a specific redirecting state
+    if (!isAuthenticated) return null;
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
-            <AuthenticatedNavbar />
-            <main className="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {children}
-            </main>
-        </div>
+        <CartProvider>
+            <div className="flex flex-col min-h-screen bg-gray-50">
+                <AuthenticatedNavbar />
+                <main className="grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    {children}
+                </main>
+                <Footer />
+            </div>
+        </CartProvider>
     );
 }
