@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils/cn';
 
 type LoginMode = 'BUYER' | 'ADMIN';
 
-// Component that uses searchParams - must be wrapped in Suspense
+
 function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -24,35 +24,39 @@ function LoginForm() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    // IT Admin credentials (autofilled)
+    // IT Admin credentials
     const IT_ADMIN_NAME = 'TechSource Solutions';
     const IT_ADMIN_EMAIL = 'sales@techsourcesolutions.com';
 
     useEffect(() => {
         const registered = searchParams.get('registered');
         if (registered === 'true') {
-            // Small delay to ensure ToastProvider is ready
+        
             setTimeout(() => {
                 showToast('Account created successfully! Please log in with your credentials.', 'success');
             }, 100);
         }
     }, [searchParams, showToast]);
 
-    // Autofill IT Admin credentials when switching to ADMIN mode
-    useEffect(() => {
-        if (loginMode === 'ADMIN') {
+
+
+    // Handle login mode change
+    const handleLoginModeChange = (mode: LoginMode) => {
+        setLoginMode(mode);
+        if (mode === 'ADMIN') {
             setName(IT_ADMIN_NAME);
             setEmail(IT_ADMIN_EMAIL);
-            setPassword(''); // Password must be manually entered
+            setPassword(''); 
         } else {
             setName('');
             setEmail('');
             setPassword('');
         }
-    }, [loginMode]);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -66,16 +70,15 @@ function LoginForm() {
 
         setIsLoading(true);
         try {
-            const authUser = await login(email, password);
+            await login(email, password);
             showToast('Welcome back! Login successful!', 'success');
 
-            // Immediate redirect based on role
             router.push('/home');
-        } catch (err: any) {
-            const errorMessage = err.message || 'Login failed. Please check your credentials.';
+        } catch (err) {
+            const errorMessage = (err as Error).message || 'Login failed. Please check your credentials.';
             setError(errorMessage);
             showToast(errorMessage, 'error');
-            setIsLoading(false); // Only reset loading on error
+            setIsLoading(false); 
         }
     };
 
@@ -109,7 +112,7 @@ function LoginForm() {
                         <div className="grid grid-cols-2 gap-3">
                             <button
                                 type="button"
-                                onClick={() => setLoginMode('BUYER')}
+                                onClick={() => handleLoginModeChange('BUYER')}
                                 className={cn(
                                     "flex flex-col items-center justify-center p-4 border rounded-xl transition-all",
                                     loginMode === 'BUYER'
@@ -123,7 +126,7 @@ function LoginForm() {
 
                             <button
                                 type="button"
-                                onClick={() => setLoginMode('ADMIN')}
+                                onClick={() => handleLoginModeChange('ADMIN')}
                                 className={cn(
                                     "flex flex-col items-center justify-center p-4 border rounded-xl transition-all",
                                     loginMode === 'ADMIN'
@@ -167,17 +170,22 @@ function LoginForm() {
                     <div className="space-y-1">
                         <div className="flex items-center justify-between">
                             <label className="block text-sm font-medium text-gray-700">Password</label>
-                            {loginMode === 'BUYER' && (
-                                <Link href="#" className="text-xs text-blue-500 hover:text-blue-600">Forgot password?</Link>
-                            )}
                         </div>
                         <Input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder={loginMode === 'ADMIN' ? "Enter: TechSource" : "••••••••••••"}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            autoComplete="new-password"
                         />
+                        <div className="mt-2">
+                            <Checkbox
+                                checked={showPassword}
+                                onChange={(e) => setShowPassword(e.target.checked)}
+                                label="Show password"
+                            />
+                        </div>
                         {loginMode === 'ADMIN' && (
                             <p className="text-xs text-gray-500 mt-1">
                                 Password: <span className="font-mono font-semibold">TechSource</span>
@@ -185,18 +193,11 @@ function LoginForm() {
                         )}
                     </div>
 
-                    {loginMode === 'BUYER' && (
-                        <div className="flex items-center">
-                            <Checkbox id="remember-me" />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-500">
-                                Keep me logged in for this session
-                            </label>
-                        </div>
-                    )}
+
 
                     {error && (
                         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm flex items-start gap-2">
-                            <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-5 h-5 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                             </svg>
                             <span>{error}</span>
@@ -238,7 +239,7 @@ function LoginForm() {
 export default function LoginPage() {
     return (
         <Suspense fallback={
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         }>
