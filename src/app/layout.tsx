@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+'use client';
+
 import { Lexend, Funnel_Sans, Courier_Prime } from "next/font/google";
 import "./globals.css";
+import { ToastProvider } from "@/lib/context/ToastContext";
+import { ReduxProvider } from "@/lib/redux/ReduxProvider";
 
 const lexend = Lexend({
   variable: "--font-lexend",
@@ -18,22 +21,21 @@ const courierPrime = Courier_Prime({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "ElectroProcure",
-  description: "B2B Electronics Procurement Platform",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body
         className={`${lexend.variable} ${funnelSans.variable} ${courierPrime.variable} antialiased`}
       >
-        {children}
+        <ReduxProvider>
+          <ToastProvider>
+            {children}
+          </ToastProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

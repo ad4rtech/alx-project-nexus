@@ -5,20 +5,12 @@ import { ITAdminProductCard } from '@/components/business/ITAdminProductCard';
 import { Search } from 'lucide-react';
 import { fetchProducts, Product } from '@/lib/actions/products';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { useRouter } from 'next/navigation';
 
 export default function EquipmentPage() {
     const { user, loading } = useAuth();
     const [products, setProducts] = useState<Product[]>([]);
     const [loadingProducts, setLoadingProducts] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-
-    useEffect(() => {
-        if (!loading) {
-            loadProducts();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loading]);
 
     const loadProducts = async () => {
         setLoadingProducts(true);
@@ -29,10 +21,16 @@ export default function EquipmentPage() {
         setLoadingProducts(false);
     };
 
-    // RBAC Protection - return null early to prevent flash
+    useEffect(() => {
+        if (!loading) {
+            loadProducts();
+        }
+    }, [loading]);
+
+    // RBAC Protection
     if (loading || loadingProducts) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center min-h-100">
                 <div className="text-gray-500">Loading...</div>
             </div>
         );
@@ -59,8 +57,8 @@ export default function EquipmentPage() {
                 </p>
             </div>
 
-            {/* IT Admin Toolbar: Simplified, Right Aligned Search */}
-            <div className="w-full flex justify-end">
+            {/* IT Admin Toolbar*/}
+            <div className="w-full flex justify-start">
                 <div className="relative w-full max-w-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Search className="h-4 w-4 text-gray-400" />
@@ -86,7 +84,7 @@ export default function EquipmentPage() {
                     .map((product) => (
                         <ITAdminProductCard
                             key={product.id}
-                            id={parseInt(product.id)}
+                            id={product.id}
                             category={product.category}
                             title={product.name}
                             features={product.features}
@@ -98,7 +96,7 @@ export default function EquipmentPage() {
 
             {products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && searchQuery && (
                 <div className="text-center py-12">
-                    <p className="text-gray-500">No products found matching "{searchQuery}"</p>
+                    <p className="text-gray-500">No products found matching &quot;{searchQuery}&quot;</p>
                 </div>
             )}
         </div>
