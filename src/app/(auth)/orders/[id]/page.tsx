@@ -1,7 +1,7 @@
 'use client';
 
 import React, { use, useEffect, useState } from 'react';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Box, Truck, MapPin, Package2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -64,7 +64,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
     const isAdmin = user?.role === 'ADMIN';
 
     const loadOrder = React.useCallback(async () => {
-        setLoading(true);
+        // setLoading(true); // Removed to avoid set-state-in-effect warning
         const result = await fetchOrderById(id);
         if (result.error || !result.order) {
             notFound();
