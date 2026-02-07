@@ -18,32 +18,40 @@ export const AuthenticatedNavbar = () => {
     const role = user?.role;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const isActive = (href: string) => pathname === href || pathname.startsWith(href);
-
-    // Common links
-    const links = [
-        { name: 'Home', href: '/home' },
-        // Conditional Catalog Link
-        ...(role === 'ADMIN'
-            ? [{ name: 'Catalog', href: '/equipment' }]
-            : [{ name: 'Products', href: '/products' }]
-        ),
-        { name: 'Orders', href: '/orders' },
-    ];
-
     // Role display mapping
     const roleDisplay = role === 'ADMIN' ? 'IT Administrator' : 'Procurement Manager';
     const roleBadgeInitial = role === 'ADMIN' ? 'IT' : 'PM';
 
-  
+    const isActive = (href: string) => pathname === href || pathname.startsWith(href);
 
-    if (role === 'ADMIN') {
-        links.push({ name: 'Deployments', href: '/deployments' });
-        links.push({ name: 'Tracking', href: '/tracking' });
-    }
+    // Define navigation items based on role
+    const getNavItems = () => {
+        const items = [
+            { name: 'Home', href: '/home' },
+        ];
 
-    // Settings link for all users
-    links.push({ name: 'Settings', href: '/settings' });
+        if (role === 'ADMIN') {
+            items.push(
+                { name: 'Catalog', href: '/equipment' },
+                { name: 'Orders', href: '/orders' },
+                { name: 'Deployments', href: '/deployments' },
+                { name: 'Tracking', href: '/tracking' }
+            );
+        } else {
+            // BUYER / Procurement Manager
+            items.push(
+                { name: 'Products', href: '/products' },
+                { name: 'Cart', href: '/cart' },
+                { name: 'Orders', href: '/orders' }
+            );
+        }
+
+        // Settings is always last
+        items.push({ name: 'Settings', href: '/settings' });
+        return items;
+    };
+
+    const navItems = getNavItems();
 
     const handleLogout = () => {
         logout();
@@ -53,7 +61,7 @@ export const AuthenticatedNavbar = () => {
     return (
         <nav className="bg-white border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-24">
+                <div className="flex justify-between h-16">
                     {/* Left & Center: Brand + Nav */}
                     <div className="flex">
                         <div className="shrink-0 flex items-center mr-8">
@@ -61,51 +69,43 @@ export const AuthenticatedNavbar = () => {
                                 <Image
                                     src="/assets/electro-procure-logo.png"
                                     alt="ElectroProcure"
-                                    width={160}
-                                    height={40}
+                                    width={120}
+                                    height={30}
                                     priority
-                                    className="h-10 w-auto"
+                                    className="h-8 w-auto"
                                 />
 
                             </Link>
                         </div>
                         <div className="hidden sm:-my-px sm:flex sm:space-x-8">
-                            {links.map((link) => (
+                            {navItems.map((item) => (
                                 <Link
-                                    key={link.name}
-                                    href={link.href}
+                                    key={item.name}
+                                    href={item.href}
                                     className={cn(
                                         'inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-colors',
-                                        isActive(link.href)
+                                        isActive(item.href)
                                             ? 'border-gray-900 text-gray-900'
                                             : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                                     )}
                                 >
-                                    {link.name}
+                                    {item.name === 'Cart' ? (
+                                        <span className="flex items-center gap-2">
+                                            <span className="relative">
+                                                <ShoppingCart className="h-5 w-5" />
+                                                {itemCount > 0 && (
+                                                    <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                                                        {itemCount}
+                                                    </span>
+                                                )}
+                                            </span>
+                                            <span>Cart</span>
+                                        </span>
+                                    ) : (
+                                        item.name
+                                    )}
                                 </Link>
                             ))}
-                            {/* Cart Icon + Text - Only for BUYER */}
-                            {role === 'BUYER' && (
-                                <Link
-                                    href="/cart"
-                                    className={cn(
-                                        'inline-flex items-center gap-2 px-1 pt-1 text-sm font-medium border-b-2 transition-colors',
-                                        isActive('/cart')
-                                            ? 'border-gray-900 text-gray-900'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
-                                    )}
-                                >
-                                    <span className="relative">
-                                        <ShoppingCart className="h-5 w-5" />
-                                        {itemCount > 0 && (
-                                            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                                                {itemCount}
-                                            </span>
-                                        )}
-                                    </span>
-                                    <span>Cart</span>
-                                </Link>
-                            )}
                         </div>
                     </div>
 
@@ -154,44 +154,35 @@ export const AuthenticatedNavbar = () => {
                 {mobileMenuOpen && (
                     <div className="sm:hidden border-t border-gray-200">
                         <div className="px-2 pt-2 pb-3 space-y-1">
-                            {links.map((link) => (
+                            {navItems.map((item) => (
                                 <Link
-                                    key={link.name}
-                                    href={link.href}
+                                    key={item.name}
+                                    href={item.href}
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={cn(
                                         'block px-3 py-2 rounded-md text-base font-medium',
-                                        isActive(link.href)
+                                        isActive(item.href)
                                             ? 'bg-blue-50 text-blue-700'
                                             : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                                     )}
                                 >
-                                    {link.name}
+                                    {item.name === 'Cart' ? (
+                                        <span className="flex items-center justify-between w-full">
+                                            <span className="flex items-center gap-2">
+                                                <ShoppingCart className="h-5 w-5" />
+                                                Cart
+                                            </span>
+                                            {itemCount > 0 && (
+                                                <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                                    {itemCount}
+                                                </span>
+                                            )}
+                                        </span>
+                                    ) : (
+                                        item.name
+                                    )}
                                 </Link>
                             ))}
-                            {/* Cart link for mobile - Only for BUYER */}
-                            {role === 'BUYER' && (
-                                <Link
-                                    href="/cart"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className={cn(
-                                        'flex items-center justify-between px-3 py-2 rounded-md text-base font-medium',
-                                        isActive('/cart')
-                                            ? 'bg-blue-50 text-blue-700'
-                                            : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                                    )}
-                                >
-                                    <span className="flex items-center gap-2">
-                                        <ShoppingCart className="h-5 w-5" />
-                                        Cart
-                                    </span>
-                                    {itemCount > 0 && (
-                                        <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                            {itemCount}
-                                        </span>
-                                    )}
-                                </Link>
-                            )}
                         </div>
                         {/* Mobile user section */}
                         <div className="pt-4 pb-3 border-t border-gray-200">
