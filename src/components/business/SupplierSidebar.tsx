@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/Button';
-import { Building2, CheckCircle, Mail, Phone, ExternalLink } from 'lucide-react';
+import { Building2, CheckCircle, Mail, Phone} from 'lucide-react';
 
 export const SupplierSidebar = () => {
     return (
@@ -11,7 +10,7 @@ export const SupplierSidebar = () => {
 
             {/* Supplier Profile Header */}
             <div className="flex items-start gap-4">
-                <div className="h-10 w-10 flex-shrink-0 bg-gray-50 rounded-md border border-gray-100 flex items-center justify-center">
+                <div className="h-10 w-10 shrink-0 bg-gray-50 rounded-md border border-gray-100 flex items-center justify-center">
                     <Building2 className="h-6 w-6 text-gray-400" />
                 </div>
                 <div>
@@ -22,7 +21,7 @@ export const SupplierSidebar = () => {
                             Verified Supplier
                         </span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-1.5">Member since 2018</p>
+                    <p className="text-xs text-gray-400 mt-1.5">Member since 2026</p>
                 </div>
             </div>
 
@@ -37,25 +36,11 @@ export const SupplierSidebar = () => {
                 </div>
                 <div className="bg-gray-50 px-3 py-2 rounded-md flex items-center gap-3 text-sm text-gray-600">
                     <Phone className="h-4 w-4 text-gray-400" />
-                    <span>+1 (800) 555-0199</span>
+                    <span>+254722004455</span>
                 </div>
             </div>
 
-            {/* Metrics */}
-            <div className="space-y-3 pt-2">
-                <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Reliability Score</span>
-                    <span className="font-bold text-gray-900">98%</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">On-Time Delivery</span>
-                    <span className="font-bold text-gray-900">96%</span>
-                </div>
-            </div>
 
-            <Button variant="outline" className="w-full justify-center text-sm">
-                View Supplier Profile
-            </Button>
         </div>
     );
 };
