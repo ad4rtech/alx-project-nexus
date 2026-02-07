@@ -152,12 +152,6 @@ These badges highlight the core technologies powering **ElectroProcure**, emphas
 
 **Architecture (High-Level)**
 
-```mermaid
-flowchart LR
-    Client[Web Client] --> Frontend[Next.js App]
-    Frontend --> API[Backend API]
-    API --> DB[(Database)]
-
 ## 🧱 System Architecture (High-Level)
 
 ```mermaid
