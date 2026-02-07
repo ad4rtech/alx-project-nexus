@@ -29,7 +29,7 @@ export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
         'DEPLOYED': 'Deployed',
     };
 
-    const displayStatus = (displayText as any)[status] || status;
+    const displayStatus = (displayText as Record<string, string>)[status] || status;
 
     return (
         <span className={cn(
