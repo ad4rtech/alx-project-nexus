@@ -124,76 +124,79 @@ The **Institutional Electronics E-Commerce Platform** is a web-based application
 
 ## 🧱 System Architecture (High-Level)
 
+```mermaid
 flowchart LR
     Client[Web Client] --> Frontend[Next.js App]
     Frontend --> API[Backend API]
     API --> DB[(Database)]
-    
-Architecture Description
+```
 
-Client-side rendered web application using Next.js App Router
+### Architecture Description
 
-Backend API handles authentication, products, and orders
+- Client-side rendered web application using Next.js App Router
+- Backend API handles authentication, products, and orders
+- Database stores users, organizations, products, and orders
 
-Database stores users, organizations, products, and orders
+---
 
-✨ Features
-Current (MVP)
+## ✨ Features
 
-Welcome page with onboarding CTA
+### Current (MVP)
 
-Role-based authentication
+- ✅ Welcome page with onboarding CTA
+- ✅ Role-based authentication
+- ✅ Company profile management
+- ✅ Product browsing and search
+- ✅ Bulk ordering and cart
+- ✅ Order tracking with status labels
+- ✅ Supplier verification and warranty display
 
-Company profile management
+### Planned / Future
 
-Product browsing and search
+- 🔜 Advanced search and filtering
+- 🔜 Real-time shipment tracking
+- 🔜 Supplier ratings and reviews
+- 🔜 Bulk pricing and discounts
+- 🔜 Admin analytics dashboard
 
-Bulk ordering and cart
+---
 
-Order tracking with status labels
+## ⚙️ Installation & Setup
 
-Supplier verification and warranty display
+### Prerequisites
 
-Planned / Future
+- Node.js (LTS)
+- npm or yarn
 
-Advanced search and filtering
+### Installation
 
-Real-time shipment tracking
-
-Supplier ratings and reviews
-
-Bulk pricing and discounts
-
-Admin analytics dashboard
-
-⚙️ Installation & Setup
-Prerequisites
-
-Node.js (LTS)
-
-npm or yarn
-
-Installation
+```bash
 git clone <repository-url>
 cd project
 npm install
+```
 
-Run Development Server
+### Run Development Server
+
+```bash
 npm run dev
+```
 
-▶️ Usage
+---
 
-Visit the Welcome Page
+## ▶️ Usage
 
-Click Get Started
+1. Visit the Welcome Page
+2. Click **Get Started**
+3. Sign up or log in as **Procurement Manager** or **IT Administrator**
+4. Browse products and place orders
+5. Track orders and review history
 
-Sign up or log in as Procurement Manager or IT Administrator
+---
 
-Browse products and place orders
+## 📂 Project Structure
 
-Track orders and review history
-
-📂 Project Structure
+```
 src/app/
 ├─ (public)/
 │  ├─ page.tsx
@@ -210,17 +213,19 @@ src/app/
 │  └─ register/page.tsx
 ├─ layout.tsx
 └─ globals.css
+```
 
-🤝 Contributing
+---
 
-Fork the repository
+## 🤝 Contributing
 
-Create a feature branch
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+4. Follow formatting and code standards
 
-Submit a pull request
+---
 
-Follow formatting and code standards
-
-📄 License
+## 📄 License
 
 This project is licensed under the MIT License.
