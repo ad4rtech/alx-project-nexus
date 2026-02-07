@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useOrganization } from '@/lib/hooks/useOrganization';
-import { Loader } from '@/components/ui/Loader';
 
 export const Header = () => {
     const { user } = useAuth();
@@ -13,7 +12,7 @@ export const Header = () => {
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         {/* Search bar could go here */}
-                        <div className="flex-shrink-0 flex items-center">
+                        <div className="shrink-0 flex items-center">
                             {/* Mobile menu button? */}
                         </div>
                     </div>
