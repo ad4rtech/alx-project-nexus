@@ -144,7 +144,7 @@ export default function TrackingPage() {
                         <div>
                             <h2 className="text-lg font-bold text-gray-900">Order {selectedOrder.order_number}</h2>
                             <p className="text-sm text-gray-500">
-                                Placed on {new Date(selectedOrder.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • {selectedOrder.items && selectedOrder.items.length > 0 ? selectedOrder.items[0].title || selectedOrder.items[0].name : 'Unknown item'} • Total: ${selectedOrder.total_amount.toFixed(2)}
+                                Placed on {new Date(selectedOrder.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} • {selectedOrder.items && selectedOrder.items.length > 0 ? selectedOrder.items[0].title || selectedOrder.items[0].name : 'Unknown item'} • Total: KSh {selectedOrder.total_amount.toFixed(2)}
                             </p>
                         </div>
                         <div className="text-right">
@@ -262,7 +262,7 @@ export default function TrackingPage() {
                                             {order.items && order.items.length > 0 ? order.items[0].title || order.items[0].name : 'Unknown item'}
                                         </td>
                                         <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                                            ${order.total_amount.toFixed(2)}
+                                            KSh {order.total_amount.toFixed(2)}
                                         </td>
                                         <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
                                             {order.status !== 'DEPLOYED' && (
