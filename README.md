@@ -158,11 +158,19 @@ flowchart LR
     Frontend --> API[Backend API]
     API --> DB[(Database)]
 
-🧱 System Architecture
+## 🧱 System Architecture (High-Level)
+
+```mermaid
+flowchart LR
+    Client[Web Client] --> Frontend[Next.js App]
+    Frontend --> API[Backend API]
+    API --> DB[(Database)]
+
+Architecture Description
 
 Client-side rendered web application using Next.js App Router
 
-Backend API handles authentication, products, orders
+Backend API handles authentication, products, and orders
 
 Database stores users, organizations, products, and orders
 
