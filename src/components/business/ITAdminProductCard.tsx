@@ -1,11 +1,9 @@
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
 import { ShieldCheck, Cpu, HardDrive, Monitor, Wifi, Settings, Battery, MousePointer2 } from 'lucide-react';
 
 interface ITAdminProductCardProps {
-    id: number;
+    id: string | number;
     category: string;
     title: string;
     features?: string[];
@@ -33,11 +31,11 @@ const getWarrantyColor = (text: string) => {
     return 'bg-green-500 text-white border-green-500'; // Default Green
 };
 
-export const ITAdminProductCard = ({ id, category, title, features = [], warranty = '1 Yr Standard', image }: ITAdminProductCardProps) => {
+export const ITAdminProductCard = ({ category, title, features = [], warranty = '1 Yr Standard', image }: ITAdminProductCardProps) => {
     return (
         <div className="bg-white rounded-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
             {/* Image Area - Taller Aspect Ratio */}
-            <div className="aspect-[4/5] w-full bg-gray-50 relative border-b border-gray-50 overflow-hidden">
+            <div className="aspect-4/5 w-full bg-gray-50 relative border-b border-gray-50 overflow-hidden">
                 {image ? (
                     <Image
                         src={image}
@@ -58,7 +56,7 @@ export const ITAdminProductCard = ({ id, category, title, features = [], warrant
                 }}></div>
             </div>
 
-            <div className="p-6 flex flex-col flex-grow">
+            <div className="p-6 flex flex-col grow">
                 {/* Category */}
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
                     {category}
@@ -70,10 +68,10 @@ export const ITAdminProductCard = ({ id, category, title, features = [], warrant
                 </h3>
 
                 {/* Feature List */}
-                <div className="space-y-3 mb-8 flex-grow">
+                <div className="space-y-3 mb-8 grow">
                     {features.map((feature, i) => (
                         <div key={i} className="flex items-start gap-3">
-                            <div className="mt-0.5 flex-shrink-0">
+                            <div className="mt-0.5 shrink-0">
                                 {getFeatureIcon(feature)}
                             </div>
                             <span className="text-xs text-gray-500 font-medium leading-tight">
@@ -89,12 +87,6 @@ export const ITAdminProductCard = ({ id, category, title, features = [], warrant
                         <ShieldCheck className="w-3 h-3 mr-1.5" />
                         {warranty}
                     </div>
-
-                    <Link href={`/equipment/${id}`}>
-                        <Button variant="ghost" size="sm" className="h-8 text-xs font-semibold text-gray-900 hover:bg-gray-50 border border-gray-200">
-                            View Specs
-                        </Button>
-                    </Link>
                 </div>
             </div>
         </div>
