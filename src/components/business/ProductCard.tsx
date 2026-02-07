@@ -17,7 +17,7 @@ export const ProductCard = ({ id, category, title, description, price, image }: 
         <Link href={`/products/${id}`} className="block group h-full">
             <div className="bg-white rounded-lg p-4 border border-gray-100 group-hover:shadow-lg transition-shadow h-full flex flex-col">
                 {/* Product Image */}
-                <div className="aspect-[4/3] w-full rounded-md bg-gray-50 mb-4 overflow-hidden relative border border-gray-100">
+                <div className="aspect-4/3 w-full rounded-md bg-gray-50 mb-4 overflow-hidden relative border border-gray-100">
                     {image ? (
                         <Image
                             src={image}
@@ -33,7 +33,7 @@ export const ProductCard = ({ id, category, title, description, price, image }: 
                     )}
                 </div>
 
-                <div className="space-y-2 flex-grow">
+                <div className="space-y-2 grow">
                     <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                         {category}
                     </div>
@@ -49,7 +49,7 @@ export const ProductCard = ({ id, category, title, description, price, image }: 
 
                 <div className="pt-4 flex items-center justify-between mt-auto">
                     <span className="text-lg font-bold text-gray-900">
-                        ${price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        KSh {price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
                     <Button variant="ghost" size="sm" className="bg-blue-50 text-blue-700 hover:bg-100 h-8 px-4 text-xs font-semibold">
                         Details
