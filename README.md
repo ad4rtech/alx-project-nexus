@@ -124,12 +124,18 @@ The **Institutional Electronics E-Commerce Platform** is a web-based application
 
 ## 🧱 System Architecture (High-Level)
 
-```mermaid
-flowchart LR
-    Client[Web Client] --> Frontend[Next.js App]
-    Frontend --> API[Backend API]
-    API --> DB[(Database)]
-Architecture Description
+Web Client
+    │
+    ▼
+Next.js App (Frontend)
+    │
+    ▼
+Backend API
+    │
+    ▼
+Database
+
+# Architecture Description
 
 Client-side rendered web application using Next.js App Router
 
@@ -137,7 +143,7 @@ Backend API handles authentication, products, and orders
 
 Database stores users, organizations, products, and orders
 
-✨ Features
+# ✨ Features
 Current (MVP)
 
 Welcome page with onboarding CTA
@@ -166,7 +172,7 @@ Bulk pricing and discounts
 
 Admin analytics dashboard
 
-⚙️ Installation & Setup
+# ⚙️ Installation & Setup
 Prerequisites
 
 Node.js (LTS)
@@ -181,7 +187,7 @@ npm install
 Run Development Server
 npm run dev
 
-▶️ Usage
+# ▶️ Usage
 
 Visit the Welcome Page
 
@@ -193,7 +199,7 @@ Browse products and place orders
 
 Track orders and review history
 
-📂 Project Structure
+# 📂 Project Structure
 src/app/
 ├─ (public)/
 │  ├─ page.tsx
@@ -211,7 +217,7 @@ src/app/
 ├─ layout.tsx
 └─ globals.css
 
-🤝 Contributing
+# 🤝 Contributing
 
 Fork the repository
 
@@ -221,6 +227,6 @@ Submit a pull request
 
 Follow formatting and code standards
 
-📄 License
+# 📄 License
 
 This project is licensed under the MIT License.
