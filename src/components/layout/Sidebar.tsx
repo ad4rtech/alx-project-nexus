@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
 import { LayoutDashboard, ShoppingCart, Package, Users, Settings, LogOut } from 'lucide-react';
@@ -20,7 +21,17 @@ export const Sidebar = () => {
     return (
         <div className="flex flex-col w-64 bg-gray-900 border-r border-gray-800 min-h-screen">
             <div className="flex items-center justify-center h-16 px-4 bg-gray-900 border-b border-gray-800">
-                <h1 className="text-xl font-bold text-white tracking-wider">NEXUS<span className="text-primary-500">PROCURE</span></h1>
+                <div className="flex items-center justify-center py-4">
+                 <Image
+    src="/assets/electro-procure-logo.png"
+    alt="ElectroProcure"
+    width={160}
+    height={40}
+    priority
+    className="h-10 w-auto"
+/>
+
+                </div>
             </div>
 
             <div className="flex-1 flex flex-col overflow-y-auto pt-5 pb-4">
@@ -42,7 +53,7 @@ export const Sidebar = () => {
                                 <item.icon
                                     className={cn(
                                         isActive ? 'text-primary-500' : 'text-gray-400 group-hover:text-gray-300',
-                                        'mr-3 flex-shrink-0 h-5 w-5'
+                                        'mr-3 shrink-0 h-5 w-5'
                                     )}
                                     aria-hidden="true"
                                 />
@@ -53,10 +64,10 @@ export const Sidebar = () => {
                 </nav>
             </div>
 
-            <div className="flex-shrink-0 flex border-t border-gray-800 p-4">
+            <div className="shrink-0 flex border-t border-gray-800 p-4">
                 <button
                     onClick={logout}
-                    className="flex-shrink-0 w-full group block"
+                    className="shrink-0 w-full group block"
                 >
                     <div className="flex items-center">
                         <div className="ml-3">
