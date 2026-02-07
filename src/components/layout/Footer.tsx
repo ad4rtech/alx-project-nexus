@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { CircuitBoard, Twitter, Linkedin, Github } from 'lucide-react';
+import { Twitter, Linkedin, Github } from 'lucide-react';
+import Image from 'next/image';
 
 export const Footer = () => {
     return (
@@ -10,12 +11,14 @@ export const Footer = () => {
                     {/* Brand Section */}
                     <div className="space-y-8 xl:col-span-1">
                         <div className="flex items-center gap-2">
-                            <div className="bg-blue-600 p-1.5 rounded-lg">
-                                <CircuitBoard className="h-5 w-5 text-white" />
-                            </div>
-                            <span className="text-xl font-bold text-gray-900 font-display">
-                                ElectroProcure
-                            </span>
+                            <Image
+                                                              src="/assets/electro-procure-logo.png"
+                                                              alt="ElectroProcure"
+                                                              width={160}
+                                                              height={40}
+                                                              priority
+                                                              className="h-10 w-auto"
+                                                          />
                         </div>
                         <p className="text-base text-gray-500 max-w-xs">
                             Role-aware electronics procurement for modern organizations.
