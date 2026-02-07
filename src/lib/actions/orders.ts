@@ -5,12 +5,13 @@ import { revalidatePath } from 'next/cache';
 
 // Types
 export type OrderItem = {
-    id: number;
+    id: string;
     title: string;
-    sku: string;
+    sku?: string;
     price: number;
     quantity: number;
     image?: string;
+    category?: string;
 };
 
 export type ShippingAddress = {
@@ -164,7 +165,7 @@ export async function updateOrderStatus(
     }
 
     // Prepare update data
-    const updateData: any = {
+    const updateData: Record<string, string | null> = {
         status: newStatus,
     };
 
