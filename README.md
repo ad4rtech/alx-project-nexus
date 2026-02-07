@@ -115,25 +115,40 @@ The **Institutional Electronics E-Commerce Platform** is a web-based application
 
 ### 4.1 Tech Stack Table
 
-| Layer      | Technology        | Purpose |
-|-----------|-------------------|---------|
-| Frontend  | Next.js (React)   | Web application framework |
-| Language  | TypeScript        | Type safety and maintainability |
-| Styling   | Tailwind CSS      | UI styling and layout |
-| Backend   | TBD               | API and business logic |
-| Database  | TBD               | Data persistence |
-| Auth      | Session-based     | User authentication |
+| Layer            | Technology                          | Purpose |
+|------------------|-------------------------------------|---------|
+| Frontend         | Next.js 16 (React 19)               | App Router, SSR, and React Server Components |
+| Language         | TypeScript                          | End-to-end type safety and maintainability |
+| State Management | Redux Toolkit / Context API         | Global state (cart, orders, session) and UI state |
+| Styling          | Tailwind CSS v4                     | Utility-first, responsive UI styling |
+| Backend & Auth   | Supabase                            | Authentication, RBAC, and API services |
+| Database         | PostgreSQL (Supabase)               | Secure, scalable data persistence |
+| Realtime         | Supabase Realtime                   | Live updates for orders and deployments |
 
 ---
 
+
 ### 4.2 Tech Stack Visual Representation
 
-**Badges**
+**Technology Badges**
 
-![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)
+These badges highlight the core technologies powering **ElectroProcure**, emphasizing modern, scalable, and enterprise-ready tools used across the frontend, state management, styling, and backend services.
+
+![Next.js](https://img.shields.io/badge/Next.js%2016-000000?logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React%2019-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white)
+![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-764ABC?logo=redux&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS%20v4-38B2AC?logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white)
+
+**Stack Summary**
+- **Next.js 16 (App Router)** – Server-Side Rendering (SSR) and React Server Components (RSC)
+- **React 19** – Modern, high-performance UI development
+- **TypeScript** – End-to-end type safety and maintainability
+- **Redux Toolkit** – Centralized global state management (cart, session, orders)
+- **Tailwind CSS v4** – Utility-first, responsive UI styling
+- **Supabase** – Authentication, PostgreSQL database, and real-time services
+
 
 **Architecture (High-Level)**
 
@@ -147,7 +162,7 @@ flowchart LR
 
 Client-side rendered web application using Next.js App Router
 
-Backend API (to be finalized) handles authentication, products, orders
+Backend API handles authentication, products, orders
 
 Database stores users, organizations, products, and orders
 
@@ -195,11 +210,7 @@ npm install
 Run Development Server
 npm run dev
 
-Notes
 
-Environment variables: TBD
-
-Production build process: TBD
 
 ▶️ Usage
 
@@ -214,43 +225,24 @@ Browse products and place orders (Procurement Manager)
 Review products and track orders (IT Administrator)
 
 📂 Project Structure
-app/
-├─ page.tsx            # Welcome / Landing Page
-├─ auth/
-│  └─ page.tsx         # Login & Sign Up
-├─ dashboard/
-│  └─ page.tsx         # User dashboard
-├─ products/
-│  └─ page.tsx         # Product listing & details
-├─ orders/
-│  └─ page.tsx         # Order tracking
-├─ layout.tsx          # Global layout
-└─ globals.css         # Global styles
+src/app/
+├─ (public)/
+│  ├─ page.tsx             # Welcome / Landing Page
+│  ├─ privacy/page.tsx     # Privacy Policy
+│  └─ terms/page.tsx       # Terms of Service
+├─ (auth)/
+│  ├─ home/page.tsx        # User Dashboard
+│  ├─ products/page.tsx    # Product Catalog
+│  ├─ orders/page.tsx      # Order History
+│  ├─ cart/page.tsx        # Shopping Cart
+│  └─ layout.tsx           # Authenticated Layout
+├─ (auth-portal)/
+│  ├─ login/page.tsx       # Login Page
+│  └─ register/page.tsx    # Registration Page
+├─ layout.tsx              # Root Layout
+└─ globals.css             # Global Styles
 
-🗺️ Roadmap
-Phase 1 – MVP
 
-Core procurement flow
-
-Basic authentication and ordering
-
-Supplier trust signals
-
-Phase 2
-
-Enhanced order management
-
-Advanced product search
-
-Improved UX and performance
-
-Phase 3
-
-Analytics and reporting
-
-Supplier reviews and ratings
-
-Integration with external logistics systems
 
 🤝 Contributing
 
