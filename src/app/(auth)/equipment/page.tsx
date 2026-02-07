@@ -13,7 +13,7 @@ export default function EquipmentPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     const loadProducts = async () => {
-        setLoadingProducts(true);
+        // setLoadingProducts(true); // Removed to avoid set-state-in-effect warning as it is initialized to true
         const result = await fetchProducts();
         if (result.products) {
             setProducts(result.products);
