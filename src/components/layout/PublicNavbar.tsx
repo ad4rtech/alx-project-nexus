@@ -8,18 +8,18 @@ export const PublicNavbar = () => {
     return (
         <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-28 items-center">
+                <div className="flex justify-between h-16 items-center">
                     {/* Logo Area */}
                     <div className="flex items-center">
                         <Link href="/" className="flex items-center gap-2">
-                           <Image
-                                                              src="/assets/electro-procure-logo.png"
-                                                              alt="ElectroProcure"
-                                                              width={160}
-                                                              height={40}
-                                                              priority
-                                                              className="h-10 w-auto"
-                                                          />
+                            <Image
+                                src="/assets/electro-procure-logo.png"
+                                alt="ElectroProcure"
+                                width={120}
+                                height={30}
+                                priority
+                                className="h-8 w-auto"
+                            />
                         </Link>
                     </div>
 
