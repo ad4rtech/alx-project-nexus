@@ -56,7 +56,7 @@ export async function updateProfile(
   userId: string,
   updates: ProfileUpdateData
 ): Promise<Profile> {
-  const updateData: any = {};
+  const updateData: Record<string, string | Role | undefined | null> = {};
 
   if (updates.name !== undefined) updateData.name = updates.name;
   if (updates.role !== undefined) updateData.role = updates.role;
