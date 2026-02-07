@@ -6,19 +6,19 @@ import Image from 'next/image';
 export const Footer = () => {
     return (
         <footer className="bg-white border-t border-gray-100">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     {/* Brand Section */}
                     <div className="space-y-8 xl:col-span-1">
                         <div className="flex items-center gap-2">
                             <Image
-                                                              src="/assets/electro-procure-logo.png"
-                                                              alt="ElectroProcure"
-                                                              width={160}
-                                                              height={40}
-                                                              priority
-                                                              className="h-10 w-auto"
-                                                          />
+                                src="/assets/electro-procure-logo.png"
+                                alt="ElectroProcure"
+                                width={120}
+                                height={30}
+                                priority
+                                className="h-8 w-auto"
+                            />
                         </div>
                         <p className="text-base text-gray-500 max-w-xs">
                             Role-aware electronics procurement for modern organizations.
